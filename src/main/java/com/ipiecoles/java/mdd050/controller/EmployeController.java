@@ -4,6 +4,7 @@ import com.ipiecoles.java.mdd050.model.Employe;
 import com.ipiecoles.java.mdd050.service.EmployeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -51,7 +52,8 @@ public class EmployeController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public boolean deleteEmploye(@PathVariable(value = "id") long id) {
-		return employeService.supprEmploye(id);
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void deleteEmploye(@PathVariable(value = "id") long id) {
+		employeService.supprEmploye(id);
 	}
 }

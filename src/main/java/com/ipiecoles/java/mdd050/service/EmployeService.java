@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class EmployeService {
@@ -41,9 +40,8 @@ public class EmployeService {
 		return employeRepository.save(employe);
 	}
 
-	public boolean supprEmploye(long id) {
+	public void supprEmploye(long id) {
 		employeRepository.delete(id);
-		return true;
 	}
 
 
