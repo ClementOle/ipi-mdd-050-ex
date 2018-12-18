@@ -35,9 +35,23 @@ public class EmployeController {
 		return employeService.matriculeEmploye(matricule);
 	}
 
-	@RequestMapping("")
-	public Page<Employe> test(@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("sortProperty") String sortProperty, @RequestParam("sortDirection") String sortDirection) {
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public Page<Employe> findAllEmploye(@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("sortProperty") String sortProperty, @RequestParam("sortDirection") String sortDirection) {
 		return employeService.pagingEmploye(page, size, sortProperty, sortDirection);
 	}
 
+	@RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public Employe saveEmploye(@RequestBody Employe employe) {
+		return employeService.sauvegardeEmploye(employe);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public Employe modifyEmploye(@PathVariable(value = "id") long id, @RequestBody Employe employe) {
+		return employeService.modifierEmploye(id, employe);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public boolean deleteEmploye(@PathVariable(value = "id") long id) {
+		return employeService.supprEmploye(id);
+	}
 }

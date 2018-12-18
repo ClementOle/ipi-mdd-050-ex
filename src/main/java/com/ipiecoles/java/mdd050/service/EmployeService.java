@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class EmployeService {
@@ -31,4 +32,19 @@ public class EmployeService {
 		PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.fromString(sortDirection), sortProperty);
 		return employeRepository.findAll(pageRequest);
 	}
+
+	public Employe sauvegardeEmploye(Employe employe) {
+		return employeRepository.save(employe);
+	}
+
+	public Employe modifierEmploye(long id, Employe employe) {
+		return employeRepository.save(employe);
+	}
+
+	public boolean supprEmploye(long id) {
+		employeRepository.delete(id);
+		return true;
+	}
+
+
 }
