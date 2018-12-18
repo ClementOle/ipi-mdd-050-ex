@@ -25,20 +25,20 @@ public abstract class Employe implements Serializable {
 	private Long id;
 
 	private String nom;
-	
+
 	private String prenom;
 
 	private String matricule;
 
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate dateEmbauche;
-	
+
 	private Double salaire = Entreprise.SALAIRE_BASE;
-	
+
 	public Employe() {
-		
+
 	}
-	
+
 	public Employe(String nom, String prenom, String matricule, LocalDate dateEmbauche, Double salaire) {
 		this.nom = nom;
 		this.prenom = prenom;
@@ -50,11 +50,11 @@ public abstract class Employe implements Serializable {
 	public final Integer getNombreAnneeAnciennete() {
 		return LocalDate.now().getYear() - dateEmbauche.getYear();
 	}
-	
+
 	public Integer getNbConges() {
 		return Entreprise.NB_CONGES_BASE;
 	}
-	
+
 	public abstract Double getPrimeAnnuelle();
 
 	public void augmenterSalaire(Double pourcentage) {
@@ -120,7 +120,7 @@ public abstract class Employe implements Serializable {
 
 	/**
 	 * @param dateEmbauche the dateEmbauche to set
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void setDateEmbauche(LocalDate dateEmbauche) throws Exception {
 		/*if(dateEmbauche != null && dateEmbauche.isAfter(LocalDate.now())) {
@@ -135,7 +135,7 @@ public abstract class Employe implements Serializable {
 	public Double getSalaire() {
 		return salaire;
 	}
-	
+
 	/**
 	 * @param salaire the salaire to set
 	 */

@@ -15,17 +15,17 @@ public class Commercial extends Employe {
 	private Integer performance;
 
 	public Commercial() {
-		
+
 	}
-	
+
 	public Commercial(String nom, String prenom, String matricule, LocalDate dateEmbauche, Double salaire,
-			Double caAnnuel) {
+	                  Double caAnnuel) {
 		super(nom, prenom, matricule, dateEmbauche, salaire);
 		this.caAnnuel = caAnnuel;
 	}
 
 	public Commercial(String nom, String prenom, String matricule, LocalDate dateEmbauche, Double salaire,
-					  Double caAnnuel, Integer performance) {
+	                  Double caAnnuel, Integer performance) {
 		this(nom, prenom, matricule, dateEmbauche, salaire, caAnnuel);
 		this.performance = performance;
 	}
@@ -38,7 +38,7 @@ public class Commercial extends Employe {
 		return caAnnuel;
 	}
 
-	public Note equivalenceNote(){
+	public Note equivalenceNote() {
 		switch (performance) {
 			case 0:
 			case 50:
@@ -54,7 +54,7 @@ public class Commercial extends Employe {
 		}
 	}
 
-	public Boolean performanceEgale(Integer performance){
+	public Boolean performanceEgale(Integer performance) {
 		return this.performance.equals(performance);
 	}
 

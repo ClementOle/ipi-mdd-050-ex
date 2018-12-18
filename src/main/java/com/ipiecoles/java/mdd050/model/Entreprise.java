@@ -9,7 +9,7 @@ public final class Entreprise {
 	public static final Double INDICE_MANAGER = 1.3;
 	public static final Double PRIME_MANAGER_PAR_TECHNICIEN = 250d;
 	public static final Double PRIME_ANCIENNETE = 100d;
-	
+
 	public static Double primeAnnuelleBase() {
 		return LocalDate.now().getYear() * 0.5;
 	}

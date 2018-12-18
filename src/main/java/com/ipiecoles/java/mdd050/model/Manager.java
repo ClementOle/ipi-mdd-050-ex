@@ -14,14 +14,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Manager extends Employe {
 
 	@OneToMany(mappedBy = "manager")
 	@JsonIgnoreProperties("manager")
 	private Set<Technicien> equipe = new HashSet<>();
 
-	public Manager(){
+	public Manager() {
 
 	}
 
@@ -37,15 +37,15 @@ public class Manager extends Employe {
 	public void ajoutTechnicienEquipe(String nom, String prenom, String matricule, LocalDate dateEmbauche, Double salaire, Integer grade) throws TechnicienException {
 		this.ajoutTechnicienEquipe(new Technicien(nom, prenom, matricule, dateEmbauche, salaire, grade));
 	}
-	
+
 	public void setSalaire(Double salaire) {
-		super.setSalaire(salaire * Entreprise.INDICE_MANAGER + (salaire * (double)equipe.size() / 10));
+		super.setSalaire(salaire * Entreprise.INDICE_MANAGER + (salaire * (double) equipe.size() / 10));
 	}
 
 	public Double getPrimeAnnuelle() {
 		return Entreprise.primeAnnuelleBase() + equipe.size() * Entreprise.PRIME_MANAGER_PAR_TECHNICIEN;
 	}
-	
+
 	public void augmenterSalaire(Double pourcentage) {
 		super.augmenterSalaire(pourcentage);
 		augmenterSalaireEquipe(pourcentage);
@@ -57,11 +57,11 @@ public class Manager extends Employe {
 		}
 	}
 
-	public List<Technicien> equipeParGrade(){
+	public List<Technicien> equipeParGrade() {
 		return equipe.stream().sorted(Technicien::compareTo).collect(Collectors.toList());
 	}
 
-	public double salaireEquipeGrade1(){
+	public double salaireEquipeGrade1() {
 		return equipe.stream().filter(t -> t.getGrade().equals(1)).mapToDouble(Technicien::getSalaire).sum();
 	}
 
