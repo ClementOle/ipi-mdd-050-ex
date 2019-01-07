@@ -1,6 +1,8 @@
 package com.ipiecoles.java.mdd050.controller;
 
+import com.ipiecoles.java.mdd050.exception.GlobalExceptionHandler;
 import com.ipiecoles.java.mdd050.model.Employe;
+import com.ipiecoles.java.mdd050.model.Technicien;
 import com.ipiecoles.java.mdd050.service.EmployeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,16 +25,12 @@ public class EmployeController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-	public Employe findInfo(@PathVariable(value = "id") long id) {
-		if (employeService.findById(id) == null) {
-			throw new EntityNotFoundException("L'employé d'identifiant : " + id + " n'a pas été trouvé.");
-		}
+	public Employe findInfo(@PathVariable(value = "id") long id) throws EntityNotFoundException{
 		return employeService.findById(id);
 	}
 
 	@RequestMapping(params = "matricule")
-	public Employe findMatricule(@RequestParam(value = "matricule", defaultValue = "null") String matricule) {
-		System.out.println(matricule);
+	public Employe findMatricule(@RequestParam(value = "matricule", defaultValue = "null") String matricule) throws EntityNotFoundException{
 		return employeService.matriculeEmploye(matricule);
 	}
 
@@ -56,4 +54,6 @@ public class EmployeController {
 	public void deleteEmploye(@PathVariable(value = "id") long id) {
 		employeService.supprEmploye(id);
 	}
+
+
 }
