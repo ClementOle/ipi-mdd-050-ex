@@ -1,15 +1,14 @@
 package com.ipiecoles.java.mdd050.service;
 
+import com.ipiecoles.java.mdd050.exception.ConflictException;
 import com.ipiecoles.java.mdd050.model.Employe;
 import com.ipiecoles.java.mdd050.repository.EmployeRepository;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 @Service
@@ -17,7 +16,6 @@ public class EmployeService {
 
 	@Autowired
 	EmployeRepository employeRepository;
-
 
 	public Long countEmployes() {
 		return employeRepository.count();
@@ -55,23 +53,18 @@ public class EmployeService {
 		return employeRepository.findAll(pageRequest);
 	}
 
-	public Employe sauvegardeEmploye(Employe employe) {
-		Employe employe1 = employeRepository.findByMatricule(employe.getMatricule());
-		if (employe1 != null) {
-			throw new EntityExistsException("Un employe existe déja avec ce matricule");
+	public Employe sauvegardeEmploye(Employe employe) throws ConflictException {
+		if (employeRepository.findByMatricule(employe.getMatricule()) != null) {
+			throw new ConflictException("Erreur, le matricule " + employe.getMatricule() + " existe déjà");
 		}
 		return employeRepository.save(employe);
 	}
 
 	public Employe modifierEmploye(long id, Employe employe) {
 		return employeRepository.save(employe);
-
 	}
 
-	public void supprEmploye(long id) throws MySQLIntegrityConstraintViolationException {
+	public void supprEmploye(long id) {
 		employeRepository.delete(id);
-		if (employeRepository.findOne(id) != null) {
-			throw new MySQLIntegrityConstraintViolationException("Supprimer les technicien avant");
-		}
 	}
 }
