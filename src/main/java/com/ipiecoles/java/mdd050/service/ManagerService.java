@@ -28,7 +28,10 @@ public class ManagerService {
 		}
 		manager.ajoutTechnicienEquipe(technicien);
 		managerRepository.save(manager);
-		return technicien;
+
+		technicien.setManager(manager);
+
+		return technicienRepository.save(technicien);
 	}
 
 	public void delTechnicienEquipe(long idManager, long idTechnicien) {
@@ -41,6 +44,8 @@ public class ManagerService {
 			throw new EntityNotFoundException("Il n'existe aucun technicien possédant cette id");
 		}
 		manager.getEquipe().remove(technicien);
+		technicien.setManager(null);
+		technicienRepository.save(technicien);
 		managerRepository.save(manager);
 	}
 }

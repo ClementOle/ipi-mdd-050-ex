@@ -22,9 +22,9 @@ public class TechnicienService {
 		Manager manager = managerRepository.findByMatricule(matriculeManager);
 		Technicien technicien = technicienRepository.findOne(idTechnicien);
 		if (manager == null) {
-			throw new EntityNotFoundException("Il n'existe aucun manager avec ce matricule");
+			throw new EntityNotFoundException("Il n'existe aucun manager avec le matricule : " + manager.getMatricule());
 		} else if (technicien == null) {
-			throw new EntityNotFoundException("Il n'existe aucun technicien possédant cette id");
+			throw new EntityNotFoundException("Il n'existe aucun technicien possédant l'id : " + technicien.getId());
 		}
 		technicien.setManager(manager);
 		technicienRepository.save(technicien);
