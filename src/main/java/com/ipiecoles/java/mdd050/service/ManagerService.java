@@ -8,6 +8,8 @@ import com.ipiecoles.java.mdd050.repository.TechnicienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class ManagerService {
 	@Autowired
@@ -19,7 +21,12 @@ public class ManagerService {
 		Manager manager = managerRepository.findOneWithEquipeById(idManager);
 		Technicien technicien = technicienRepository.findByMatricule(matriculeTechnicien);
 
-		manager.getEquipe().add(technicien);
+		if (manager == null) {
+			throw new EntityNotFoundException("Il n'existe aucun manager avec cette id");
+		} else if (technicien == null) {
+			throw new EntityNotFoundException("Il n'existe aucun technicien possédant ce matricule");
+		}
+		manager.ajoutTechnicienEquipe(technicien);
 		managerRepository.save(manager);
 		return technicien;
 	}
@@ -27,6 +34,12 @@ public class ManagerService {
 	public void delTechnicienEquipe(long idManager, long idTechnicien) {
 		Manager manager = managerRepository.findOneWithEquipeById(idManager);
 		Technicien technicien = technicienRepository.findOne(idTechnicien);
+
+		if (manager == null) {
+			throw new EntityNotFoundException("Il n'existe aucun manager avec cette id");
+		} else if (technicien == null) {
+			throw new EntityNotFoundException("Il n'existe aucun technicien possédant cette id");
+		}
 		manager.getEquipe().remove(technicien);
 		managerRepository.save(manager);
 	}

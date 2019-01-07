@@ -8,6 +8,8 @@ import com.ipiecoles.java.mdd050.repository.TechnicienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class TechnicienService {
 
@@ -16,11 +18,16 @@ public class TechnicienService {
 	@Autowired
 	TechnicienRepository technicienRepository;
 
-	public Technicien ajoutManager(long idTechnicien, String matriculeManager) {
+	public Manager ajoutManager(long idTechnicien, String matriculeManager) {
 		Manager manager = managerRepository.findByMatricule(matriculeManager);
 		Technicien technicien = technicienRepository.findOne(idTechnicien);
-
+		if (manager == null) {
+			throw new EntityNotFoundException("Il n'existe aucun manager avec ce matricule");
+		} else if (technicien == null) {
+			throw new EntityNotFoundException("Il n'existe aucun technicien possédant cette id");
+		}
 		technicien.setManager(manager);
-		return technicienRepository.save(technicien);
+		technicienRepository.save(technicien);
+		return manager;
 	}
 }

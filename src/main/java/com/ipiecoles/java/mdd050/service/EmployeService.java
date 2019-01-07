@@ -2,6 +2,7 @@ package com.ipiecoles.java.mdd050.service;
 
 import com.ipiecoles.java.mdd050.model.Employe;
 import com.ipiecoles.java.mdd050.repository.EmployeRepository;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -64,9 +65,13 @@ public class EmployeService {
 
 	public Employe modifierEmploye(long id, Employe employe) {
 		return employeRepository.save(employe);
+
 	}
 
-	public void supprEmploye(long id) {
+	public void supprEmploye(long id) throws MySQLIntegrityConstraintViolationException {
 		employeRepository.delete(id);
+		if (employeRepository.findOne(id) != null) {
+			throw new MySQLIntegrityConstraintViolationException("Supprimer les technicien avant");
+		}
 	}
 }

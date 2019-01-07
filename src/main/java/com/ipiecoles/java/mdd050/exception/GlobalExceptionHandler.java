@@ -1,5 +1,6 @@
 package com.ipiecoles.java.mdd050.exception;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,5 +35,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	protected String handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException methodArgumentTypeMismatchException) {
 		return "Le type du paramètre " + methodArgumentTypeMismatchException.getName() + " est incorrect pour la valeur " + methodArgumentTypeMismatchException.getValue();
+	}
+
+	@ExceptionHandler(MySQLIntegrityConstraintViolationException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	protected String handleMySQLIntegrityConstraintViolationException(MySQLIntegrityConstraintViolationException mySQLIntegrityConstraintViolationException) {
+		return mySQLIntegrityConstraintViolationException.getMessage();
 	}
 }

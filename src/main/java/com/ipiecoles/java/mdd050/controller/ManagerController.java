@@ -23,5 +23,4 @@ public class ManagerController {
 	public void deleteTechnicienEquipe(@PathVariable(value = "idManager") long idManager, @PathVariable(value = "idTechnicien") long idTechnicien) {
 		managerService.delTechnicienEquipe(idManager, idTechnicien);
 	}
-
 }
