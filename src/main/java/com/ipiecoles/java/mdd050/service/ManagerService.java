@@ -1,10 +1,8 @@
 package com.ipiecoles.java.mdd050.service;
 
 
-import com.ipiecoles.java.mdd050.model.Employe;
 import com.ipiecoles.java.mdd050.model.Manager;
 import com.ipiecoles.java.mdd050.model.Technicien;
-import com.ipiecoles.java.mdd050.repository.EmployeRepository;
 import com.ipiecoles.java.mdd050.repository.ManagerRepository;
 import com.ipiecoles.java.mdd050.repository.TechnicienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +14,11 @@ public class ManagerService {
 	ManagerRepository managerRepository;
 	@Autowired
 	TechnicienRepository technicienRepository;
-	@Autowired
-	EmployeRepository employeRepository;
 
 	public Technicien addTechnicienEquipe(long idManager, String matriculeTechnicien) {
 		Manager manager = managerRepository.findOneWithEquipeById(idManager);
-		Employe employe = employeRepository.findByMatricule(matriculeTechnicien);
-		Technicien technicien = technicienRepository.findOne(employe.getId());
+		Technicien technicien = technicienRepository.findByMatricule(matriculeTechnicien);
+
 		manager.getEquipe().add(technicien);
 		managerRepository.save(manager);
 		return technicien;

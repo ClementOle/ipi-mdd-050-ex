@@ -2,9 +2,9 @@ package com.ipiecoles.java.mdd050.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.persistence.EntityExistsException;
@@ -26,7 +26,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(IllegalArgumentException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public String handleIllegalArgumentException(IllegalArgumentException illegalArgumentException){
+	public String handleIllegalArgumentException(IllegalArgumentException illegalArgumentException) {
 		return illegalArgumentException.getMessage();
+	}
+
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	protected String handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException methodArgumentTypeMismatchException) {
+		return "Le type du paramètre " + methodArgumentTypeMismatchException.getName() + " est incorrect pour la valeur " + methodArgumentTypeMismatchException.getValue();
 	}
 }

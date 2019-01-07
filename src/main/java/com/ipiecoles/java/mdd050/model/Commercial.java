@@ -38,6 +38,10 @@ public class Commercial extends Employe {
 		return caAnnuel;
 	}
 
+	public void setCaAnnuel(Double caAnnuel) {
+		this.caAnnuel = caAnnuel;
+	}
+
 	public Note equivalenceNote() {
 		switch (performance) {
 			case 0:
@@ -58,16 +62,12 @@ public class Commercial extends Employe {
 		return this.performance.equals(performance);
 	}
 
-	public void setCaAnnuel(Double caAnnuel) {
-		this.caAnnuel = caAnnuel;
+	public Integer getPerformance() {
+		return performance;
 	}
 
 	public void setPerformance(Integer performance) {
 		this.performance = performance;
-	}
-
-	public Integer getPerformance() {
-		return performance;
 	}
 
 	public boolean equals(Object o) {
