@@ -26,6 +26,7 @@ public class ManagerService {
 		} else if (technicien == null) {
 			throw new EntityNotFoundException("Il n'existe aucun technicien possédant ce matricule");
 		}
+
 		manager.ajoutTechnicienEquipe(technicien);
 		managerRepository.save(manager);
 
@@ -40,12 +41,17 @@ public class ManagerService {
 
 		if (manager == null) {
 			throw new EntityNotFoundException("Il n'existe aucun manager avec cette id");
-		} else if (technicien == null) {
+		}
+		if (technicien == null) {
 			throw new EntityNotFoundException("Il n'existe aucun technicien possédant cette id");
 		}
-		manager.getEquipe().remove(technicien);
-		technicien.setManager(null);
-		technicienRepository.save(technicien);
-		managerRepository.save(manager);
+		if (technicien.getManager().getId().equals(manager.getId())) {
+			manager.getEquipe().remove(technicien);
+			technicien.setManager(null);
+			technicienRepository.save(technicien);
+			managerRepository.save(manager);
+		} else {
+			throw new IllegalArgumentException("Le technicien d'id " + idTechnicien + " n'a pas pour manager d'id " + idManager);
+		}
 	}
 }

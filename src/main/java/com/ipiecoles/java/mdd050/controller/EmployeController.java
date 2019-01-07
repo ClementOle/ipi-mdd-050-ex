@@ -24,7 +24,7 @@ public class EmployeController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-	public Employe findInfo(@PathVariable(value = "id") long id) throws EntityNotFoundException {
+	public Employe findById(@PathVariable(value = "id") long id) throws EntityNotFoundException {
 		return employeService.findById(id);
 	}
 
