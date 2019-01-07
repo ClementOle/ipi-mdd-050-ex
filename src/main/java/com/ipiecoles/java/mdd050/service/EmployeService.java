@@ -1,9 +1,6 @@
 package com.ipiecoles.java.mdd050.service;
 
-import com.ipiecoles.java.mdd050.exception.GlobalExceptionHandler;
 import com.ipiecoles.java.mdd050.model.Employe;
-import com.ipiecoles.java.mdd050.model.Manager;
-import com.ipiecoles.java.mdd050.model.Technicien;
 import com.ipiecoles.java.mdd050.repository.EmployeRepository;
 import com.ipiecoles.java.mdd050.repository.ManagerRepository;
 import com.ipiecoles.java.mdd050.repository.TechnicienRepository;
@@ -48,14 +45,24 @@ public class EmployeService {
 
 	}
 
-	public Page<Employe> pagingEmploye(int page, int size, String sortProperty, String sortDirection) {
+	public Page<Employe> pagingEmploye(Integer page, int size, String sortProperty, String sortDirection) {
+		if (page < 0) {
+			throw new IllegalArgumentException("Le numéro de page ne peut être négatif");
+		} else if (page > countEmployes() / size) {
+			throw new IllegalArgumentException("Le numéro de page est trop grand");
+		} else if (size < 0) {
+			throw new IllegalArgumentException("La taille ne peut être négative");
+		} else if (size >= countEmployes()) {
+			throw new IllegalArgumentException("La taille ne peut être supérieur au nombre d'employé");
+		}
+
 		PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.fromString(sortDirection), sortProperty);
 		return employeRepository.findAll(pageRequest);
 	}
 
 	public Employe sauvegardeEmploye(Employe employe) {
 		Employe employe1 = employeRepository.findByMatricule(employe.getMatricule());
-		if(employe1 != null){
+		if (employe1 != null) {
 			throw new EntityExistsException("Un employe existe déja avec ce matricule");
 		}
 		return employeRepository.save(employe);

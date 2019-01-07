@@ -35,7 +35,7 @@ public class EmployeController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Page<Employe> findAllEmploye(@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("sortProperty") String sortProperty, @RequestParam("sortDirection") String sortDirection) {
+	public Page<Employe> findAllEmploye(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "size", defaultValue = "10") int size, @RequestParam("sortProperty") String sortProperty, @RequestParam("sortDirection") String sortDirection){
 		return employeService.pagingEmploye(page, size, sortProperty, sortDirection);
 	}
 
